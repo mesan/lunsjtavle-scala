@@ -1,28 +1,30 @@
 package no.mesan.lunsjtavle
 
-import com.sun.jersey.spi.container.servlet.ServletContainer
 import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.servlet.{ServletContextHandler, ServletHolder}
+import org.glassfish.jersey.server.ServerProperties
+import org.glassfish.jersey.servlet.ServletContainer
 
 /**
  * Enkel embedded Jetty.
  */
-object JettyStarter {
-  def main(args: Array[String]): Unit = {
-    println("Starter Jetty...")
+object JettyStarter extends App {
+  println("Starter Jetty...")
 
-    val server: Server = new Server(8080)
+  val server = new Server(8080)
 
-    // Jersey-ting
-    val holder: ServletHolder = new ServletHolder(classOf[ServletContainer])
-    holder.setInitParameter("com.sun.jersey.config.property.resourceConfigClass",
-      "com.sun.jersey.api.core.PackagesResourceConfig")
-    holder.setInitParameter("com.sun.jersey.config.property.packages",
-      "no.mesan.lunsjtavle.rest")
-    val context = new ServletContextHandler(server, "/", ServletContextHandler.SESSIONS)
-    context.addServlet(holder, "/*")
+  // Jersey-ting
+  val holder = new ServletHolder(new ServletContainer())
+  holder.setInitParameter(ServerProperties.PROVIDER_PACKAGES, "no.mesan.lunsjtavle.rest")
+  holder.setInitParameter(ServerProperties.PROVIDER_CLASSNAMES, "no.mesan.lunsjtavle.rest.JacksonProvider")
+  holder.setInitParameter(ServerProperties.TRACING, "ALL")
+  holder.setInitOrder(1)
 
-    server.start()
-    server.join()
-  }
+  val context = new ServletContextHandler(ServletContextHandler.SESSIONS)
+  context.addServlet(holder, "/*")
+  context.setContextPath("/")
+  server.setHandler(context)
+
+  server.start()
+  server.join()
 }
