@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
 
 @Provider
-class JacksonProvider extends ContextResolver[ObjectMapper] {
+object JacksonProvider extends ContextResolver[ObjectMapper] {
 
   val defaultObjectMapper = {
     val jsonObjectMapper = new ObjectMapper()
