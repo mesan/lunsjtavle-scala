@@ -21,8 +21,7 @@ object JettyStarter extends App {
   holder.setInitOrder(1)
 
   val context = new ServletContextHandler(ServletContextHandler.SESSIONS)
-  context.addServlet(holder, "/*")
-  context.setContextPath("/")
+  context.addServlet(holder, "/api/*")
   server.setHandler(context)
 
   server.start()
