@@ -1,14 +1,12 @@
 package no.mesan.lunsjtavle.rest
 
-import java.sql.Timestamp
-import java.time.{LocalDate, ZoneId}
 import javax.ws.rs._
 import javax.ws.rs.core.MediaType
 
 import no.mesan.lunsjtavle.db.{Period, PeriodRepository}
 
 @Path("/period")
-class PeriodRestService extends PeriodRepository {
+class PeriodRestService extends PeriodRepository with LunsjtavleRestService {
 
   @GET
   @Path("/{id: [0-9]+}")
@@ -39,9 +37,5 @@ class PeriodRestService extends PeriodRepository {
   @Path("/{id: [0-9]+}")
   def deletePeriod(@PathParam("id") id: Int) = {
     delete(id)
-  }
-
-  def convertStringToTimestamp(startDateString: String): Timestamp = {
-    Timestamp.from(LocalDate.parse(startDateString).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant)
   }
 }
