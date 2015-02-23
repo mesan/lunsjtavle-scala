@@ -7,7 +7,7 @@ scalaVersion := "2.11.5"
 resolvers += "mvnrepository" at "http://mvnrepository.com/artifact/"
 
 val jacksonVersion = "2.5.1"
-val jerseyVersion = "2.16"
+val jerseyVersion = "2.8"
 val jettyVersion = "9.3.0.M1"
 
 libraryDependencies ++= List(
